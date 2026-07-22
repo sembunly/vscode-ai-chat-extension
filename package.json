@@ -1,5 +1,6 @@
 {
   "name": "ai-chat",
+  "publisher": "SemBunly",
   "displayName": "AI Chat",
   "description": "AI chat inside VS Code By Sem Bunly",
   "version": "0.0.1",

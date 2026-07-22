@@ -10,7 +10,7 @@ suite('Extension Test Suite', () => {
 
 	test('contributes the chat commands', () => {
 		const extension = vscode.extensions.all.find(
-			(candidate) => candidate.packageJSON.name === 'ai-chat',
+			(candidate) => candidate.packageJSON.name === 'sembunly-ai-chat',
 		);
 		assert.ok(extension, 'AI Chat extension was not loaded');
 

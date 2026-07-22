@@ -1,21 +1,23 @@
 # AI Chat for VS Code
 
-An OpenAI-powered coding assistant in the VS Code sidebar. Ask questions, stream answers, explain or fix selected code, and generate code without leaving the editor.
+An OpenAI coding assistant in the VS Code sidebar.
 
 ## Features
 
-- Native Activity Bar and sidebar chat view
-- Streaming OpenAI Responses API output
-- Automatically attaches selected editor code to normal chat messages
-- **Explain Selected Code**, **Fix Selected Code**, and **Generate Code** commands
-- Editor context-menu actions for selected code
-- Review-first **Apply code to editor** button for generated fixes
-- Secure API-key storage through VS Code SecretStorage
-- Configurable model and system prompt
+- Streaming AI chat
 
-## Getting started
+## Get an OpenAI API key
 
-1. Open the AI Chat icon in the Activity Bar, or run **AI: Open Chat**.
-2. Select **Key** and enter an OpenAI API key.
-3. Ask a question, or select code and use **Explain**, **Fix**, or **Generate**.
-4. Review generated code before choosing **Apply code to editor** and saving the file.
+1. Open [OpenAI API Keys](https://platform.openai.com/api-keys).
+2. Select **Create new secret key** and copy it.
+3. In VS Code, run **AI: Set OpenAI API Key** and paste the key.
+
+Keep your key private. Each user needs their own key, and API usage may incur charges.
+
+## Use
+
+1. Run **AI: Open Chat**.
+2. Ask a question, or select code and choose **Explain**, **Fix**, or **Generate**.
+3. Review generated code before applying it.
+
+The key is stored with VS Code SecretStorage. Messages and selected code are sent to the OpenAI API.

@@ -3,7 +3,7 @@ import * as assert from 'assert';
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
-import { extractCode } from '../extension';
+import { buildWebviewHtml, extractCode } from '../extension';
 
 suite('Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Start all tests.');
@@ -26,5 +26,12 @@ suite('Extension Test Suite', () => {
 	test('extracts generated code from a fenced block', () => {
 		assert.strictEqual(extractCode('Use this:\n```ts\nconst ready = true;\n```'), 'const ready = true;');
 		assert.strictEqual(extractCode('No code here'), undefined);
+	});
+
+	test('produces valid webview JavaScript', () => {
+		const html = buildWebviewHtml({ cspSource: 'vscode-webview:' });
+		const script = html.match(/<script nonce="[^"]+">([\s\S]*?)<\/script>/)?.[1];
+		assert.ok(script, 'Webview script was not found');
+		assert.doesNotThrow(() => new Function(script));
 	});
 });

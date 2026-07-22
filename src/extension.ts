@@ -53,7 +53,7 @@ class ChatViewProvider implements vscode.WebviewViewProvider {
 	resolveWebviewView(view: vscode.WebviewView) {
 		this.view = view;
 		view.webview.options = { enableScripts: true };
-		view.webview.html = getWebviewHtml(view.webview);
+		view.webview.html = buildWebviewHtml(view.webview);
 		view.webview.onDidReceiveMessage(
 			(message: { type?: string; text?: string; action?: CodeAction }) => this.handleMessage(message),
 			undefined,
@@ -270,7 +270,7 @@ export function formatError(error: unknown): string {
 	return 'The request failed for an unknown reason.';
 }
 
-function getWebviewHtml(webview: vscode.Webview): string {
+export function buildWebviewHtml(webview: Pick<vscode.Webview, 'cspSource'>): string {
 	const nonce = getNonce();
 	return `<!doctype html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -286,7 +286,7 @@ const vscode=acquireVsCodeApi(),form=document.getElementById('form'),input=docum
 function message(role,text,context){empty.style.display='none';const item=document.createElement('article');item.className='message '+role;const label=document.createElement('div');label.className='label';label.textContent=role==='user'?'You':'Assistant';const bubble=document.createElement('div');bubble.className='bubble';bubble.textContent=text;item.append(label,bubble);if(context){const note=document.createElement('div');note.className='context';note.textContent='Selected code attached';item.append(note)}messages.append(item);messages.scrollTop=messages.scrollHeight;return {item,bubble}}
 function busy(value){input.disabled=value;send.disabled=value;stop.hidden=!value;if(!value)input.focus()}
 form.addEventListener('submit',e=>{e.preventDefault();const text=input.value.trim();if(!text||input.disabled)return;errorBox.style.display='none';vscode.postMessage({type:'send',text});input.value=''});input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();form.requestSubmit()}});stop.addEventListener('click',()=>vscode.postMessage({type:'stop'}));document.getElementById('key').addEventListener('click',()=>vscode.postMessage({type:'setApiKey'}));document.getElementById('clear').addEventListener('click',()=>vscode.postMessage({type:'clear'}));document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>vscode.postMessage({type:'action',action:b.dataset.action})));
-window.addEventListener('message',({data})=>{if(data.type==='user')message('user',data.text,data.hasSelection);if(data.type==='streamStart'){document.querySelectorAll('.apply').forEach(b=>b.disabled=true);busy(true);streamBubble=message('assistant','').bubble;streamBubble.classList.add('cursor')}if(data.type==='delta'&&streamBubble){streamBubble.textContent+=data.text;messages.scrollTop=messages.scrollHeight}if(data.type==='streamEnd'){busy(false);streamBubble?.classList.remove('cursor');if(data.stopped&&streamBubble)streamBubble.textContent+='\n\n[Stopped]';if(data.canApply&&streamBubble){const apply=document.createElement('button');apply.className='apply';apply.textContent='Apply code to editor';apply.addEventListener('click',()=>vscode.postMessage({type:'apply'}));streamBubble.parentElement.append(apply)}streamBubble=undefined}if(data.type==='error'){errorBox.textContent=data.message;errorBox.style.display='block'}if(data.type==='cleared'){messages.querySelectorAll('.message').forEach(n=>n.remove());empty.style.display='block';errorBox.style.display='none'}});input.focus();
+window.addEventListener('message',({data})=>{if(data.type==='user')message('user',data.text,data.hasSelection);if(data.type==='streamStart'){document.querySelectorAll('.apply').forEach(b=>b.disabled=true);busy(true);streamBubble=message('assistant','').bubble;streamBubble.classList.add('cursor')}if(data.type==='delta'&&streamBubble){streamBubble.textContent+=data.text;messages.scrollTop=messages.scrollHeight}if(data.type==='streamEnd'){busy(false);streamBubble?.classList.remove('cursor');if(data.stopped&&streamBubble)streamBubble.textContent+='\\n\\n[Stopped]';if(data.canApply&&streamBubble){const apply=document.createElement('button');apply.className='apply';apply.textContent='Apply code to editor';apply.addEventListener('click',()=>vscode.postMessage({type:'apply'}));streamBubble.parentElement.append(apply)}streamBubble=undefined}if(data.type==='error'){errorBox.textContent=data.message;errorBox.style.display='block'}if(data.type==='cleared'){messages.querySelectorAll('.message').forEach(n=>n.remove());empty.style.display='block';errorBox.style.display='none'}});input.focus();
 </script></body></html>`;
 }
 

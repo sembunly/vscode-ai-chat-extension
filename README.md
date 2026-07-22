@@ -19,5 +19,3 @@ An OpenAI-powered coding assistant in the VS Code sidebar. Ask questions, stream
 2. Select **Key** and enter an OpenAI API key.
 3. Ask a question, or select code and use **Explain**, **Fix**, or **Generate**.
 4. Review generated code before choosing **Apply code to editor** and saving the file.
-
-The default model is `gpt-5.6-sol`. API usage is billed by OpenAI separately from this extension.

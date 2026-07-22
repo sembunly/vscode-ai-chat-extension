@@ -1,0 +1,135 @@
+{
+  "name": "ai-chat",
+  "displayName": "AI Chat",
+  "description": "AI chat inside VS Code By Sem Bunly",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.125.0"
+  },
+  "categories": [
+    "Machine Learning"
+  ],
+  "keywords": [
+    "ai",
+    "chat",
+    "openai",
+    "code assistant"
+  ],
+  "activationEvents": [
+    "onCommand:ai-chat.openChat",
+    "onCommand:ai-chat.setApiKey",
+    "onView:aiChat.sidebarView"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ai-chat.openChat",
+        "title": "AI: Open Chat"
+      },
+      {
+        "command": "ai-chat.setApiKey",
+        "title": "AI: Set OpenAI API Key"
+      },
+      {
+        "command": "ai-chat.explainSelection",
+        "title": "AI: Explain Selected Code"
+      },
+      {
+        "command": "ai-chat.fixSelection",
+        "title": "AI: Fix Selected Code"
+      },
+      {
+        "command": "ai-chat.generateCode",
+        "title": "AI: Generate Code"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aiChat",
+          "title": "AI Chat",
+          "icon": "media/ai-chat.svg"
+        }
+      ]
+    },
+    "views": {
+      "aiChat": [
+        {
+          "type": "webview",
+          "id": "aiChat.sidebarView",
+          "name": "Chat"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "ai-chat.explainSelection",
+          "when": "editorHasSelection",
+          "group": "navigation@90"
+        },
+        {
+          "command": "ai-chat.fixSelection",
+          "when": "editorHasSelection",
+          "group": "navigation@91"
+        },
+        {
+          "command": "ai-chat.generateCode",
+          "group": "navigation@92"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "AI Chat",
+      "properties": {
+        "aiChat.model": {
+          "type": "string",
+          "default": "gpt-5.6-sol",
+          "description": "OpenAI model used for chat responses."
+        },
+        "aiChat.systemPrompt": {
+          "type": "string",
+          "default": "You are a precise coding assistant inside Visual Studio Code. Prefer practical, safe, ready-to-use answers.",
+          "description": "Instructions sent with each chat conversation."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test",
+    "vsix": "vsce package --out ai-chat-0.0.1.vsix",
+    "publish:marketplace": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "@types/vscode": "^1.125.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0",
+    "@vscode/vsce": "^3.9.2",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1"
+  },
+  "overrides": {
+    "diff": "^8.0.4",
+    "serialize-javascript": "^7.0.6"
+  },
+  "dependencies": {
+    "openai": "^6.48.0"
+  }
+}

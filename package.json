@@ -3,7 +3,8 @@
   "publisher": "SemBunly",
   "displayName": "AI Chat",
   "description": "AI chat inside VS Code By Sem Bunly",
-  "version": "0.0.2",
+  "version": "0.0.5",
+  "icon": "media/chat-icon.png",
   "engines": {
     "vscode": "^1.125.0"
   },
@@ -110,7 +111,7 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
     "test": "vscode-test",
-    "vsix": "vsce package --out sembunly-ai-chat-0.0.2.vsix",
+    "vsix": "vsce package --out sembunly-ai-chat-0.0.5.vsix",
     "publish:marketplace": "vsce publish"
   },
   "devDependencies": {

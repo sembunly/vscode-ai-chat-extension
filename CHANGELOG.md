@@ -6,12 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
-## [0.0.2]
+## [0.0.5]
 
-- Fixed the sidebar script so all toolbar and chat controls respond to clicks.
-- Added validation for generated Webview JavaScript.
-
-- Added Activity Bar and sidebar chat view.
-- Added streaming OpenAI responses.
-- Added selected-code Explain, Fix, Generate, and Apply workflows.
-- Added secure API-key storage and configurable model instructions.
+- Updated the Marketplace icon to `chat-icon.png`.
+- Renamed the chat toolbar button to API Key.
